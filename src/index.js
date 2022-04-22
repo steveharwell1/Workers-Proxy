@@ -1,28 +1,29 @@
 // Website you intended to retrieve for users.
-const upstream = 'www.google.com'
+const upstream = 'catalog.tamuc.edu/'
 
 // Custom pathname for the upstream website.
 const upstream_path = '/'
 
 // Website you intended to retrieve for users using mobile devices.
-const upstream_mobile = 'www.google.com'
+const upstream_mobile = upstream
 
 // Countries and regions where you wish to suspend your service.
-const blocked_region = ['CN', 'KP', 'SY', 'PK', 'CU']
+const blocked_region = []
 
 // IP addresses which you wish to block from using your service.
-const blocked_ip_address = ['0.0.0.0', '127.0.0.1']
+const blocked_ip_address = []
 
 // Whether to use HTTPS protocol for upstream address.
-const https = true
+const https = false
 
 // Whether to disable cache.
-const disable_cache = true
+const disable_cache = false
 
 // Replace texts.
+// Key Field is a regular expression of magic value of $upstream or $custom_domain
+// Value field is replacement text or magic values of $upstream or $custom_domain
 const replace_dict = {
-    '$upstream': '$custom_domain',
-    '//google.com': ''
+    '//catalog.tamuc.edu': '//www.tamuc.edu/catalog'
 }
 
 addEventListener('fetch', event => {
@@ -55,7 +56,7 @@ async function fetchAndApply(request) {
     if (url.pathname == '/') {
         url.pathname = upstream_path;
     } else {
-        url.pathname = upstream_path + url.pathname;
+        url.pathname = upstream_path + url.pathname; //url.pathname = /
     }
 
     if (blocked_region.includes(region)) {
